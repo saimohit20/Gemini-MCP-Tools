@@ -30,25 +30,22 @@ This repository contains a Python client that demonstrates how to integrate Goog
 At its core, the client facilitates a multi-turn conversation between your query, Gemini, and your local tools.
 
 1. **Tool Discovery and Declaration**
-Your client.py starts. It establishes a connection to your local server.py (via MCP).
-
-The client then asks the MCP server, "What tools do you have?" The server responds with details like tool names, descriptions, and their required input parameters (in JSON Schema format).
-
-The client takes these details and formats them into a specific structure that Google Gemini understands (using "function_declarations"). This is how Gemini "learns" about your available tools and their capabilities.
+- Your client.py starts. It establishes a connection to your local server.py (via MCP).
+- The client then asks the MCP server, "What tools do you have?" The server responds with details like tool names, descriptions, and their required input parameters (in JSON Schema format).
+- The client takes these details and formats them into a specific structure that Google Gemini understands (using "function_declarations"). This is how Gemini "learns" about your available tools and their capabilities.
 
 -----------------------------------------------------------------------------------------------
 
 2. **The LLM's Decision (process_query - First Turn)**
 
-User Query: You ask a question (e.g., "What's the weather like in London?").
-First Call to Gemini: Your client sends your query along with the list of available tools to Gemini. You instruct Gemini to AUTOmatically decide if a tool is needed.
-Gemini's Reasoning:
-Gemini analyzes your query and compares it with the description and parameters of the tools it "knows" about.
-It internally determines if answering the query requires external information obtainable by a tool.
-If it decides a tool is useful, it identifies the tool name and the arguments it needs to call that tool, based on your query.
-Gemini's Response (Tool Call): Instead of a text answer, Gemini responds with a function_call instruction. This tells your client: "Hey, I need you to run get_weather with location='London'."
-
-Your Client's Action: Your client.py detects this function_call within the response.candidates[0].content.parts. It then adds this function_call instruction to the ongoing conversation history (contents).
+- User Query: You ask a question (e.g., "What's the weather like in London?").
+- First Call to Gemini: Your client sends your query along with the list of available tools to Gemini. You instruct Gemini to AUTOmatically decide if a tool is needed.
+**Gemini's Reasoning**:
+- Gemini analyzes your query and compares it with the description and parameters of the tools it "knows" about.
+- It internally determines if answering the query requires external information obtainable by a tool.
+- If it decides a tool is useful, it identifies the tool name and the arguments it needs to call that tool, based on your query.
+- Gemini's Response (Tool Call): Instead of a text answer, Gemini responds with a function_call instruction. This tells your client: "Hey, I need you to run get_weather with location='London'."
+- Your Client's Action: Your client.py detects this function_call within the response.candidates[0].content.parts. It then adds this function_call instruction to the ongoing conversation history (contents).
 
 --------------------------------------------------------------------------------------------------------
 
