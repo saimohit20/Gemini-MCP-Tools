@@ -53,14 +53,12 @@ Your Client's Action: Your client.py detects this function_call within the respo
 --------------------------------------------------------------------------------------------------------
 
 3. **Tool Execution and Reporting (process_query - Your Code's Action)Execute Tool**:
-
 Your client uses the extracted tool_call.name and tool_call.args to call the actual function on your MCP server (self.session.call_tool). Example: Your code executes get_weather("London") via MCP.
 Get Result: The MCP server runs the function and returns the real-world result (e.g., "It's cloudy and 18°C in London.").
 Report Result to Gemini: Crucially, your client then adds this tool's result back into the conversation history (contents). This time, it uses the special "role": "function" and "function_response" key to inform Gemini what happened.
 ---------------------------------------------
 
 5. **Final Answer Generation (process_query - Second Turn)**
-   
 Second Call to Gemini: Your client sends the entire updated conversation history (original query + Gemini's tool call + tool's result) back to Gemini.
 Gemini's Final Reasoning: With the context of the tool's result, Gemini can now synthesize a complete, human-readable answer to the original query.
 Gemini's Response (Final Answer): Gemini provides a direct text response based on the data it received from the tool. Example of Gemini's final text response:
