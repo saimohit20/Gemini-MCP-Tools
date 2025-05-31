@@ -2,6 +2,10 @@
 
 This repository contains a Python client that demonstrates how to integrate Google Gemini's Function Calling capabilities with a MCP server for external tool execution. This allows the Gemini LLM to intelligently decide when to use specific functions (tools) hosted on your MCP server to answer user queries or perform actions.
 
+![mcp](https://github.com/user-attachments/assets/e4de8754-4001-41bd-a840-bfb2dc4d5b43)
+
+
+
 ## Project Structure
 
 **client.py**: The main client script that describes the interaction between user queries, Google Gemini, and the MCP server.
