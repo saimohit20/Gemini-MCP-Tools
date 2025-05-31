@@ -36,25 +36,6 @@ The client then asks the MCP server, "What tools do you have?" The server respon
 
 The client takes these details and formats them into a specific structure that Google Gemini understands (using "function_declarations"). This is how Gemini "learns" about your available tools and their capabilities.
 
-Example of a tool definition sent to Gemini:
-
-JSON
-
-{
-  "function_declarations": [
-    {
-      "name": "get_weather",
-      "description": "Gets the current weather for a specified location.",
-      "parameters": {
-        "type": "object",
-        "properties": {
-          "location": { "type": "string", "description": "City and country" }
-        },
-        "required": ["location"]
-      }
-    }
-  ]
-}
 -----------------------------------------------------------------------------------------------
 
 2. **The LLM's Decision (process_query - First Turn)**
@@ -64,27 +45,10 @@ Gemini's Reasoning:
 Gemini analyzes your query and compares it with the description and parameters of the tools it "knows" about.
 It internally determines if answering the query requires external information obtainable by a tool.
 If it decides a tool is useful, it identifies the tool name and the arguments it needs to call that tool, based on your query.
-Gemini's Response (Tool Call): Instead of a text answer, Gemini responds with a function_call instruction. This tells your client: "Hey, I need you to run get_weather with location='London'." Example of Gemini's response (internal structure):
-JSON
+Gemini's Response (Tool Call): Instead of a text answer, Gemini responds with a function_call instruction. This tells your client: "Hey, I need you to run get_weather with location='London'."
 
-{
-  "candidates": [
-    {
-      "content": {
-        "role": "model",
-        "parts": [
-          {
-            "function_call": {
-              "name": "get_weather",
-              "args": {"location": "London"}
-            }
-          }
-        ]
-      }
-    }
-  ]
-}
 Your Client's Action: Your client.py detects this function_call within the response.candidates[0].content.parts. It then adds this function_call instruction to the ongoing conversation history (contents).
+
 --------------------------------------------------------------------------------------------------------
 
 3. Tool Execution and Reporting (process_query - Your Code's Action)
