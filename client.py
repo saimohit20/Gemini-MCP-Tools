@@ -8,7 +8,7 @@ from mcp.client.stdio import stdio_client
 import google.generativeai as genai
 
 
-# REPLACE 'YOUR_GEMINI_API_KEY_HERE' WITH YOUR ACTUAL KEY
+# Add your API key 
 GEMINI_API_KEY = "" 
 
 # Apply nest_asyncio to allow nested event loops (needed for Jupyter/IPython)
@@ -143,8 +143,6 @@ class MCPGeminiClient:
                 )
                 print(f"DEBUG: MCP Tool Result: {result.content[0].text}")
 
-                # --- CRITICAL CORRECTION HERE ---
-                # Changed "functionResponse" to "function_response" (snake_case)
                 contents.append(
                     {
                         "role": "function",
